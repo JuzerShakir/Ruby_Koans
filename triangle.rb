@@ -28,9 +28,13 @@ def triangle(a, b, c)
 
   raise TriangleError if (sides[0] <= 0) || (sides[0] + sides[1] <= sides[2])
 
-  return :equilateral if sides.count(a) == 3
-  return :isosceles if sides.count(a) == 2 || sides.count(b) == 2
-  return :scalene
+  if sides.count(a) == 3
+    return :equilateral
+  elsif (sides.count(a) == 2 || sides.count(b) == 2)
+    return :isosceles
+  else
+    return :scalene
+  end
 end
 
 # Error class used in part 2.  No need to change this code.
