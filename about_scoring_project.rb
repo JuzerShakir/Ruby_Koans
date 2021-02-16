@@ -31,6 +31,37 @@ require File.expand_path(File.dirname(__FILE__) + '/neo')
 
 def score(dice)
   # You need to write this method
+  $total = 0
+
+  def solution die, group_of_die, remaining
+    if group_of_die > 0
+      if die == 1
+        $total += group_of_die * 1000
+      else
+        $total += (die * 100) * group_of_die
+      end
+    end
+
+    if remaining > 0
+      if die == 1
+        $total += remaining * 100
+      elsif die == 5
+        $total += remaining * 50
+      end
+    end
+  end
+
+  uniq_dices = dice.uniq
+  uniq_dices.each do | die |
+    count_of_die = dice.count(die)
+
+    group_of_die = count_of_die / 3
+    remaining = count_of_die % 3
+
+    solution(die, group_of_die, remaining)
+  end
+
+  return $total
 end
 
 class AboutScoringProject < Neo::Koan
