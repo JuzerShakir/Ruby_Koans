@@ -36,8 +36,8 @@ class Proxy
         end
 
       else @object.is_a?(String)
-        @result =  @object.method(missing_method.to_s)
-        p @result.call()
+        @result =  @object.send(missing_method)
+        p @result
       end
     else
       super(missing_method, *args)
