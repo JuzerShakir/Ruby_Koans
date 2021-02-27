@@ -16,9 +16,49 @@ class Proxy
   def initialize(target_object)
     @object = target_object
     # ADD MORE CODE HERE
+    #p @object.class     #TELEVISION
+    @messages = []
+    @result = ""
   end
 
-  # WRITE CODE HERE
+  def method_missing missing_method, *args
+    @messages << missing_method
+    @argument = *args
+    if @object.respond_to?(missing_method)
+      if @object.is_a?(Television)
+        case missing_method
+        when :power
+          @object.power
+        when :channel=
+          @object.channel = @argument.first
+        when :on?
+          return @object.on?
+        end
+
+      else @object.is_a?(String)
+        @result =  @object.method(missing_method.to_s)
+        p @result.call()
+      end
+    else
+      super(missing_method, *args)
+    end
+
+  end
+
+  def channel
+    @object.channel
+  end
+
+  def messages
+    p @messages
+  end
+  def called?(tv_method)
+    p @messages.include?(tv_method)
+  end
+  def number_of_times_called(tv_method)
+    @messages.count(tv_method)
+  end
+
 end
 
 # The proxy object should pass the following Koan:
